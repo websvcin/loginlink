@@ -1,0 +1,339 @@
+/*
+ * LOCK-71 — this page got a distinct, more premium visual pass on explicit
+ * request, since it's public customer-facing documentation, not an internal
+ * Console/Admin screen. Deliberately its own token set (a slightly different
+ * indigo from the rest of the docs site) rather than reusing custom.css's
+ * global variables verbatim.
+ */
+
+.page {
+  --ink: #0b0c10;
+  --ink-soft: #565b6b;
+  --ink-faint: #8f93a1;
+  --paper: #f6f6f4;
+  --paper-raised: #ffffff;
+  --line: rgba(11, 12, 16, 0.1);
+  --line-soft: rgba(11, 12, 16, 0.06);
+  --accent: #4f46e5;
+  --accent-deep: #3730a3;
+  --accent-soft: #eef0ff;
+  --mint: #059669;
+  --mint-soft: #e6f7f1;
+  --amber: #b45309;
+  --amber-soft: #fdf3e3;
+  --code-bg: #0c0d12;
+  --code-ink: #d7dae2;
+  --shadow-sm: 0 1px 2px rgba(11, 12, 16, 0.05), 0 1px 1px rgba(11, 12, 16, 0.04);
+  --shadow-md: 0 10px 26px rgba(11, 12, 16, 0.08), 0 2px 6px rgba(11, 12, 16, 0.05);
+
+  background: var(--paper);
+  color: var(--ink);
+  min-height: 100vh;
+}
+
+[data-theme='dark'] .page {
+  --ink: #eef0f4;
+  --ink-soft: #b7bbc8;
+  --ink-faint: #7d8290;
+  --paper: #101116;
+  --paper-raised: #191a21;
+  --line: rgba(255, 255, 255, 0.1);
+  --line-soft: rgba(255, 255, 255, 0.06);
+  --accent: #8583f0;
+  --accent-deep: #c2c1ff;
+  --accent-soft: #23255a;
+  --mint: #34d9a5;
+  --mint-soft: #113a2d;
+  --amber: #f2b355;
+  --amber-soft: #3a2a12;
+  --code-bg: #08090c;
+  --code-ink: #d7dae2;
+}
+
+/* ---------- Hero ---------- */
+
+.heroStrip {
+  background-image: radial-gradient(rgba(11, 12, 16, 0.08) 1px, transparent 1px);
+  background-size: 18px 18px;
+  background-position: -4px -4px;
+  mask-image: linear-gradient(to bottom, black, transparent);
+  -webkit-mask-image: linear-gradient(to bottom, black, transparent);
+  padding: 48px 30px 8px;
+}
+
+[data-theme='dark'] .heroStrip {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.09) 1px, transparent 1px);
+}
+
+.heroInner {
+  max-width: 880px;
+  margin: 0 auto;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: var(--accent-deep);
+  background: var(--accent-soft);
+  padding: 4px 11px;
+  border-radius: 999px;
+  margin-bottom: 14px;
+}
+
+.eyebrowDot {
+  width: 5px;
+  height: 5px;
+  border-radius: 999px;
+  background: var(--accent);
+}
+
+.pageH1 {
+  font-size: 32px;
+  text-wrap: balance;
+}
+
+.pageSub {
+  font-size: 14.5px;
+  color: var(--ink-soft);
+  margin-top: 8px;
+  max-width: 620px;
+  line-height: 1.6;
+}
+
+.content {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 22px 30px 80px;
+}
+
+/* ---------- Personalization banners ---------- */
+
+.banner {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  background: var(--paper-raised);
+  border: 1px solid var(--line-soft);
+  box-shadow: var(--shadow-sm);
+  border-radius: 12px;
+  padding: 13px 17px;
+  font-size: 13.5px;
+  margin: 20px 0;
+}
+
+.bannerSignedOut {
+  composes: banner;
+  color: var(--ink-soft);
+}
+
+.bannerPersonalized {
+  composes: banner;
+  color: var(--accent-deep);
+}
+
+.iconChip {
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.iconChipMint {
+  composes: iconChip;
+  background: var(--mint-soft);
+  color: var(--mint);
+}
+
+.iconChipAmber {
+  composes: iconChip;
+  background: var(--amber-soft);
+  color: var(--amber);
+}
+
+.banner a {
+  text-decoration: underline;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+/* ---------- Language tabs ---------- */
+
+.langTabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin: 26px 0 18px;
+}
+
+.langTab {
+  padding: 8px 15px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  font-size: 12.8px;
+  font-weight: 600;
+  color: var(--ink-soft);
+  cursor: pointer;
+  background: var(--paper-raised);
+  box-shadow: var(--shadow-sm);
+  transition: all 0.14s ease;
+}
+
+.langTab:hover {
+  color: var(--ink);
+}
+
+.langTabActive {
+  composes: langTab;
+  border-color: transparent;
+  background: var(--ink);
+  color: var(--paper);
+  box-shadow: var(--shadow-md);
+}
+
+/* ---------- SDK vs raw toggle ---------- */
+
+.methodToggle {
+  display: flex;
+  gap: 3px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 11px;
+  padding: 4px;
+  width: fit-content;
+  margin-bottom: 18px;
+}
+
+.methodBtn {
+  padding: 9px 17px;
+  border-radius: 8px;
+  font-size: 12.8px;
+  font-weight: 700;
+  cursor: pointer;
+  color: var(--ink-soft);
+  transition: all 0.14s ease;
+  background: transparent;
+  border: none;
+}
+
+.methodBtnActive {
+  composes: methodBtn;
+  background: var(--ink);
+  color: var(--paper);
+  box-shadow: var(--shadow-sm);
+}
+
+/* ---------- Code blocks — editor-window chrome, pure CSS ---------- */
+
+.codeBlock {
+  position: relative;
+  background: var(--code-bg);
+  color: var(--code-ink);
+  border-radius: 12px;
+  padding: 40px 18px 18px;
+  font-size: 12.5px;
+  line-height: 1.65;
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-x: auto;
+  box-shadow: var(--shadow-md);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  font-family: 'IBM Plex Mono', ui-monospace, 'SF Mono', Consolas, monospace;
+}
+
+.codeBlock::before {
+  content: '';
+  position: absolute;
+  top: 16px;
+  left: 17px;
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: #ff5f57;
+  box-shadow: 18px 0 0 #febc2e, 36px 0 0 #28c840;
+}
+
+.installLine {
+  color: #7d8290;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.placeholderVal {
+  color: #93c5fd;
+}
+
+.realVal {
+  composes: placeholderVal;
+  color: #fbbf24;
+  font-weight: 600;
+}
+
+.note {
+  font-size: 12.8px;
+  color: var(--ink-soft);
+  margin-top: 12px;
+  line-height: 1.6;
+  max-width: 600px;
+}
+
+.note code {
+  background: var(--accent-soft);
+  color: var(--accent-deep);
+  padding: 1px 6px;
+  border-radius: 5px;
+}
+
+/* ---------- Mobile section ---------- */
+
+.mobileGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+@media (max-width: 720px) {
+  .mobileGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.mobileHeading {
+  font-size: 14.5px;
+  margin-bottom: 10px;
+}
+
+/* ---------- Closing callout ---------- */
+
+.calloutNote {
+  display: flex;
+  gap: 12px;
+  background: var(--paper-raised);
+  border: 1px solid var(--line-soft);
+  box-shadow: var(--shadow-sm);
+  border-radius: 14px;
+  padding: 16px 18px;
+  font-size: 13.5px;
+  color: var(--ink);
+  margin-top: 32px;
+  line-height: 1.62;
+}
+
+.calloutNote b {
+  display: block;
+  margin-bottom: 3px;
+}
+
+.calloutNote code {
+  background: var(--accent-soft);
+  color: var(--accent-deep);
+  padding: 1px 6px;
+  border-radius: 5px;
+}
