@@ -5,7 +5,7 @@
 > A ship-yourself alternative to Auth0 / Okta / Clerk that you fully own — every tenant's data
 > kept fully separate, no shared database, no vendor lock-in.
 
-📖 **[Documentation](https://websvcin.github.io/loginlink/)** · 🐳 [Docker Hub](https://hub.docker.com/r/websvcin/loginlink) · 📦 [GHCR](https://github.com/websvcin/loginlink/pkgs/container/loginlink)
+📖 **[Documentation](https://websvcin.github.io/loginlink/)** · 🐳 [Docker Hub](https://hub.docker.com/r/websvcin/loginlink) · 📦 [GHCR](https://github.com/websvcin/loginlink/pkgs/container/loginlink) · 🚀 [Releases](https://github.com/websvcin/loginlink/releases)
 
 ---
 
@@ -14,7 +14,7 @@
 - **OAuth 2.0 + OpenID Connect** — Authorization Code + PKCE, Client Credentials, Device Flow, per-tenant signing keys
 - **True multi-tenancy** — every tenant's data isolated in its own database (SQLite, Postgres, or MySQL)
 - **Passwordless & MFA** — WebAuthn passkeys, magic links, email/SMS OTP, TOTP
-- **10+ identity providers** — Google, Microsoft, GitHub, GitLab, Facebook, LinkedIn, Apple, Discord, Slack, Bitbucket, plus SAML and LDAP/AD for enterprise
+- **18 sign-in methods built in** — Google, Microsoft, GitHub, GitLab, Facebook, LinkedIn, Apple, Discord, Slack, Bitbucket, plus SAML, generic OIDC, and LDAP/AD for enterprise
 - **SCIM provisioning & a Management API** — automate users, roles, and apps from your own tooling
 - **GDPR built in** — data export and right-to-be-forgotten, ready before your first customer asks
 
@@ -32,7 +32,9 @@ docker run -d \
 
 Then open `http://localhost:5000` and create your first organization.
 
-See the [self-hosting guide](https://websvcin.github.io/loginlink/docs/self-hosting/docker-images) for production configuration, reverse proxy setup, and BYO-database options.
+Prefer not to use Docker? See [Run from a GitHub Release](https://websvcin.github.io/loginlink/self-hosting/binary-releases) instead.
+
+See the [self-hosting guide](https://websvcin.github.io/loginlink/self-hosting/docker-images) for production configuration, reverse proxy setup, and BYO-database options.
 
 ## Support
 
