@@ -4,10 +4,12 @@ title: Changelog
 
 # Changelog
 
-:::caution Design-locked, not yet built
-This page will mirror GitHub Releases once tagged releases and CI/CD publishing are built (`LOCK-68`). There's no automated release history to show yet.
-:::
+Every tagged release is published as a [GitHub Release](https://github.com/websvcin/loginlink/releases), generated automatically by the build pipeline from the commit it was cut from — one source of truth, not a hand-maintained list that can drift from what's actually shipped.
 
-Once available, every tagged release (`v1.4.0`, etc.) will appear here automatically, generated from the same GitHub Release created by the build pipeline — one source of truth, not a hand-maintained list that can drift from what's actually shipped.
+**[See the full release history →](https://github.com/websvcin/loginlink/releases)**
 
-In the meantime, see the main repository's commit history for what's changed.
+Each release lists:
+
+- The exact commit it was built from
+- The matching Docker Hub and GHCR image tags (see [Docker Images](../self-hosting/docker-images))
+- A downloadable build if you're running it without Docker (see [Run from a GitHub Release](../self-hosting/binary-releases))

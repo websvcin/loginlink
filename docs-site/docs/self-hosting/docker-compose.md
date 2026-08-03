@@ -4,33 +4,48 @@ title: docker-compose Quickstart
 
 # docker-compose Quickstart
 
-:::caution Design-locked, not yet built
-This page describes the planned shape once [Docker Images](./docker-images) (`LOCK-68`) are published. The compose file below is illustrative — it references image tags that don't exist yet.
-:::
-
-## Planned shape
-
-A single `docker-compose.yml` bringing up LoginLink with a local database for evaluation or small-scale self-hosting:
+A single `docker-compose.yml` bringing up LoginLink for evaluation or small-scale self-hosting, using the embedded SQLite storage:
 
 ```yaml
-# Planned — not yet available
-version: "3.8"
 services:
   loginlink:
-    image: ghcr.io/websvcin/loginlink:latest
+    image: websvcin/loginlink:latest
+    container_name: loginlink
     ports:
-      - "8080:8080"
-    environment:
-      LOGINLINK__ISSUER: "https://auth.yourdomain.com"
+      - "5000:5000"
+      - "5443:5443"
     volumes:
-      - loginlink-data:/app/App_Data
-
-volumes:
-  loginlink-data:
+      - ./App_Data:/app/App_Data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/healthz"]
+      interval: 30s
+      timeout: 5s
+      start_period: 30s
+      retries: 3
 ```
 
-By default LoginLink's platform/host data uses an embedded SQLite file (mounted via the volume above); production deployments can point tenant storage at MySQL or PostgreSQL instead — see [BYO-DB / Data Residency](../security-compliance/byo-db-data-residency).
+```bash
+docker compose up -d
+```
 
-## Until then
+Then open `http://localhost:5000` and create your first organization.
 
-Run the solution directly with `dotnet run` against a local clone — see the main repository README.
+Swap `latest` for an exact `vX.Y.Z` tag (see [Docker Images](./docker-images)) once you're past evaluation and want a pinned, reproducible version.
+
+By default LoginLink's platform/host data uses an embedded SQLite file (mounted via the `App_Data` volume above); production deployments can point tenant storage at MySQL or PostgreSQL instead — see [BYO-DB / Data Residency](../security-compliance/byo-db-data-residency).
+
+## Deploying via Portainer (Plesk, or any other Docker host)
+
+This same compose file works unchanged as a Portainer **Stack** — paste it in, deploy, done. Portainer, Plesk's Docker extension, Synology's Container Manager, and plain `docker compose` on any Linux box are all just running the same standard compose format underneath; nothing here is Docker-Hub- or LoginLink-specific.
+
+One thing to get right up front, specifically for Portainer's **Stacks** feature: the `./App_Data` path above is *relative* to wherever Portainer happens to store that stack's files, which is a path Portainer generates per-stack — if you ever delete the stack and recreate it (rather than just updating the existing one), you get a **new** stack folder, and `./App_Data` silently starts empty again. Your old data isn't gone, it's just sitting in the old stack's folder, disconnected from the new container.
+
+Avoid this by pointing the volume at a fixed, absolute path you choose yourself, instead of the relative one:
+
+```yaml
+    volumes:
+      - /var/loginlink/App_Data:/app/App_Data
+```
+
+Pick any path outside Portainer's own managed directories (in Plesk, somewhere under your subscription's own storage is fine). As long as every future stack — recreated or not — mounts that *same* absolute path, your data survives regardless of what Portainer does with the stack itself. This is also the one path you need to back up — see [Backing up & moving your deployment](./backup-and-moving).

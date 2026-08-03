@@ -4,7 +4,7 @@ title: .NET / JS / React
 
 # .NET / JS / React
 
-LoginLink doesn't (yet) publish branded SDK packages — see [Mobile SDKs](./mobile) and [Widget](./widget) for what's planned. Today, integrating from .NET, JavaScript, or React means using each ecosystem's own standard, widely-trusted OIDC library pointed at your tenant — no LoginLink-specific package to install or trust.
+LoginLink doesn't (yet) publish branded SDK packages for .NET, JavaScript, or React — see [Mobile SDKs](./mobile) for that story on iOS/Android, or the [Embeddable Widget](./widget) if you want a zero-code drop-in instead. Today, integrating from .NET, JavaScript, or React means using each ecosystem's own standard, widely-trusted OIDC library pointed at your tenant — no LoginLink-specific package to install or trust.
 
 Real, runnable sample projects for each are in the main repository under [`/samples`](https://github.com/websvcin/loginlink/tree/main/samples), alongside samples for Python, Java, Go, PHP, Ruby, and iOS/Android.
 

@@ -64,6 +64,8 @@ const sidebars = {
       items: [
         'self-hosting/docker-images',
         'self-hosting/docker-compose',
+        'self-hosting/binary-releases',
+        'self-hosting/backup-and-moving',
       ],
     },
     {
