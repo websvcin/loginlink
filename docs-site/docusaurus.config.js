@@ -13,7 +13,11 @@ const darkCodeTheme = require('prism-react-renderer').themes.dracula;
 const config = {
   title: 'LoginLink Docs',
   tagline: 'Guides, API references, and SDKs for adding sign-in to your product.',
-  favicon: 'img/favicon.ico',
+  // Feedback (2026-08-04) — was pointing at img/favicon.ico, a file that
+  // was never actually added (only logo.svg existed), so every page served
+  // a 404 for its own favicon. Same story for image (social-card.png)
+  // below — now a real rendered asset, not a referenced-but-missing one.
+  favicon: 'img/favicon.png',
 
   // Feedback (2026-08-01) — resolved: docs deploy to GitHub Pages
   // (websvcin.github.io/loginlink/), not a custom domain. If a custom domain
