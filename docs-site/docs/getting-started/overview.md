@@ -35,4 +35,5 @@ Once users exist in your tenant, LoginLink gives you a few ways to manage them w
 
 - New to LoginLink? Start with the **[Quickstart](/quickstart)** — a working sign-in flow in about 10 minutes.
 - Rolling out for an existing user base? See **[Authentication Methods](../authentication/password-mfa)** to plan which sign-in methods to enable.
+- Running your own instance? Start with **[First-Run Setup](../self-hosting/first-run-setup)**, then see **[Creating an Organization](./creating-an-organization)** for the signup flow your customers will see.
 - Need users provisioned from Okta/Azure AD instead of self-signup? See **[SCIM Provisioning](../automating-your-tenant/scim-provisioning)**.

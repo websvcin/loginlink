@@ -27,7 +27,7 @@ dotnet LoginLink.dll
 
 By default it listens on port `5000` (HTTP) and `5443` (HTTPS) — same as the Docker image. Point a reverse proxy (nginx, IIS, Plesk's own proxy) at it the same way you would any Kestrel app.
 
-Data (host/platform/tenant SQLite files) lands in `App_Data` next to the executable by default.
+Data (`bootstrap.db` and the SQLite control-plane and tenant files) lands in `App_Data` next to the executable by default. On first start, open the site in a browser — a fresh install runs the [First-Run Setup](./first-run-setup) wizard.
 
 ## Upgrading without risking your data
 

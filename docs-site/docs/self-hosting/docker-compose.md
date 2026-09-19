@@ -29,11 +29,11 @@ services:
 docker compose up -d
 ```
 
-Then open `http://localhost:5000` and create your first organization.
+Then open `http://localhost:5000` — a fresh install redirects to a short setup wizard where you choose your database and create your own administrator. See [First-Run Setup](./first-run-setup).
 
 Swap `latest` for an exact `vX.Y.Z` tag (see [Docker Images](./docker-images)) once you're past evaluation and want a pinned, reproducible version.
 
-By default LoginLink's platform/host data uses an embedded SQLite file (mounted via the `App_Data` volume above); production deployments can point tenant storage at MySQL or PostgreSQL instead — see [BYO-DB / Data Residency](../security-compliance/byo-db-data-residency).
+By default LoginLink keeps its control plane and every organization's data in embedded SQLite files (mounted via the `App_Data` volume above). Production deployments can put the control plane and/or individual organizations on MySQL or PostgreSQL instead — choose during [First-Run Setup](./first-run-setup), and see [Where Your Data Lives](./where-your-data-lives) and [BYO-DB / Data Residency](../security-compliance/byo-db-data-residency).
 
 ## Deploying via Portainer (Plesk, or any other Docker host)
 

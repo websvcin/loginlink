@@ -44,4 +44,4 @@ Every action is scoped to the calling credential's own tenant — a credential c
 
 ## Tenant-owned, not platform-owned
 
-Every Management API credential lives entirely within your own tenant. There's no platform-operator surface for this feature and no way to create a new tenant/organization through this API — organization creation happens once, through normal signup, before any Management API credential can exist for it.
+Every Management API credential lives entirely within your own tenant. There's no platform-operator surface for this feature and no way to create a new tenant/organization through this API — organization creation happens once, through [normal signup](../getting-started/creating-an-organization), before any Management API credential can exist for it. (Platform operators who embed LoginLink in their own product have a separate, platform-scoped credential for creating organizations server-to-server — see the [Platform API](../api-reference/platform-api); it's managed at **Admin → Platform Settings → Platform API Access** and is not a tenant credential.)

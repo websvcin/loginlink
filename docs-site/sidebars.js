@@ -18,6 +18,15 @@ const sidebars = {
           href: '/quickstart',
         },
         'getting-started/core-concepts',
+        'getting-started/creating-an-organization',
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Console',
+      items: [
+        'console/user-management',
+        'console/admin-actions-and-audit',
       ],
     },
     {
@@ -30,6 +39,7 @@ const sidebars = {
         'authentication/social-oauth',
         'authentication/ldap-active-directory',
         'authentication/saml',
+        'authentication/cross-surface-sign-in',
       ],
     },
     {
@@ -46,6 +56,7 @@ const sidebars = {
       items: [
         'api-reference/oauth-oidc-endpoints',
         'api-reference/management-api-reference',
+        'api-reference/platform-api',
         'api-reference/scim-api-reference',
       ],
     },
@@ -62,10 +73,16 @@ const sidebars = {
       type: 'category',
       label: 'Self-Hosting',
       items: [
+        'self-hosting/first-run-setup',
         'self-hosting/docker-images',
         'self-hosting/docker-compose',
         'self-hosting/binary-releases',
+        'self-hosting/where-your-data-lives',
         'self-hosting/backup-and-moving',
+        'self-hosting/database-auto-provisioning',
+        'self-hosting/signup-security',
+        'self-hosting/issuer-and-reverse-proxy',
+        'self-hosting/upgrades-and-deployment-health',
       ],
     },
     {

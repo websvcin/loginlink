@@ -37,10 +37,10 @@ docker run -d \
 ```
 
 - Port `5000` is HTTP, `5443` is HTTPS.
-- `/app/App_Data` is where every SQLite file lives (host/platform/tenant databases) — mount it to a persistent volume or your data resets on every container recreation.
+- `/app/App_Data` is where `bootstrap.db` and every SQLite database live (the control plane's `platform.db` and each organization's `tenant_<id>.db`) — mount it to a persistent volume or your data resets on every container recreation. See [Where Your Data Lives](./where-your-data-lives) if you'll use MySQL/PostgreSQL for any part of it.
 - The image exposes `/healthz` for liveness checks (already wired into the container's own `HEALTHCHECK`).
 
-Then open `http://localhost:5000` and create your first organization.
+Then open `http://localhost:5000` — a fresh install redirects to a short setup wizard where you choose your database and create your own administrator. See [First-Run Setup](./first-run-setup).
 
 For a multi-service setup (or if you'd rather declare this once instead of a long `docker run`), see the [docker-compose Quickstart](./docker-compose).
 
