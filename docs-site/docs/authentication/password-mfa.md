@@ -6,7 +6,7 @@ title: Password & MFA
 
 ## Password sign-in
 
-Standard email/password (or any registered identifier + password) sign-in. Password policy — minimum length, character-class requirements, breach-list checking — is configurable per tenant in **Console → Settings → Password Policy**.
+Standard email/password (or any registered identifier + password) sign-in. Password policy — minimum length, character-class requirements, breach-list checking — is configured on the Password connector's own settings page, like any other connector: **Console → Sign-in Methods → Email & Password → Configure** (tenant-wide) or a specific app's own **Connectors → Configure** for a per-app override. See [Apps & Connectors](../console/apps-and-connectors#configuring-a-connector--floor-and-override) for how the Floor/Override model applies to connector settings fields, and [Credential Health](../console/risk-monitoring-and-alerts#credential-health) for password age tracking and breach-check.
 
 ## Multi-factor authentication
 
@@ -26,11 +26,11 @@ If a user loses access to their MFA method entirely, a self-service recovery flo
 
 ## Configuring MFA for your tenant
 
-**Console → Settings → Multi-Factor Authentication** controls:
+MFA configuration is split across a few dedicated Console pages rather than one settings screen — see [MFA & Recovery](../console/mfa-and-recovery) for the full walkthrough:
 
-- Whether MFA is required, optional, or off, tenant-wide.
-- Which factors are available (TOTP, Magic Link step-up).
-- Trusted-device duration.
-- Self-service recovery on/off.
+- **Which second factor applies to which sign-in method** — Console → MFA & Recovery → Method Rules, narrowed from whatever the platform allows.
+- **Auto-send behavior** — Console → MFA Settings.
+- **Recovery mode, exhaustion policy, and low-codes warnings** — Console → MFA Recovery, in three independently-saved sections.
+- **Trusted-device duration** — Console → Session Settings (see [Session & Token Policy](../console/session-and-token-policy#trusted-devices)).
 
-A platform-level floor can force MFA on for every tenant regardless of a tenant's own preference — ask your LoginLink platform operator if you're on a self-hosted instance and this applies to you.
+A platform-level ceiling can force MFA on, or restrict which recovery modes are even selectable, regardless of a tenant's own preference — ask your LoginLink platform operator if you're on a self-hosted instance and this applies to you.

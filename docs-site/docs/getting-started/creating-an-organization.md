@@ -17,9 +17,13 @@ The page is a short, guided flow. Your platform administrator controls parts of 
 
 URLs use lowercase letters, numbers and hyphens (2–40 characters). Some names are reserved, and a URL that's already taken is reported to you — LoginLink never changes it behind your back.
 
+![Step 1 of the signup wizard, showing the organization name field and the live availability check under the organization URL field](/img/screenshots/signup-wizard-step1.png)
+
 ### 2. About you
 
 Your name, email and a password that meets the platform's password policy. You'll sign in to the organization's console with these.
+
+![Step 2 of the signup wizard, personalized with the organization's name, collecting the first admin's name, email and password](/img/screenshots/signup-wizard-step2.png)
 
 ### 3. Verify your email *(only if required)*
 

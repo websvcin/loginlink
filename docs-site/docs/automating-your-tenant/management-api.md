@@ -19,6 +19,8 @@ The Management API is a REST surface for scripting your own user, role, and app 
 
 Each credential can be rotated (issue a new secret, old one stops working immediately) or revoked (suspends the underlying service account, blocking further token issuance) independently, without affecting any other credential.
 
+![The API Access page, showing the isolation explanation, the credentials list, and a "Get started with curl" walkthrough of the token-then-create-user-then-grant-role sequence](/img/screenshots/console-api-access.png)
+
 ## Getting a token
 
 ```

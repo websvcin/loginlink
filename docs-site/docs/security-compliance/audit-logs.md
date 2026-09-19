@@ -12,7 +12,9 @@ Each entry includes the action, the actor (user or credential), the target, IP a
 
 ## Querying and exporting
 
-Console's audit view supports filtering by date range, action type, and actor, with CSV export for anything you need to hand to a compliance review or a security investigation.
+Console's audit view supports filtering by date range (quick presets from last 24 hours to last 90 days, or a custom range), action prefix, user ID, and IP address, with CSV export for anything you need to hand to a compliance review or a security investigation. Summary tiles above the table show total events, sign-ins, failures, and unique users for the selected range at a glance.
+
+![The Audit Log page, showing summary tiles, date-range and filter controls, and a list of recent sign-in and risk-evaluation events](/img/screenshots/console-audit-log.png)
 
 ## Retention
 

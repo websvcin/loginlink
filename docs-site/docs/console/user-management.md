@@ -14,6 +14,8 @@ title: Managing Users
 
 The same search-and-page pattern is used on **Apps**, **Roles**, and **Tenant Admins** — each lists 24 at a time with a search box.
 
+![The Console Users list, showing total/active/suspended counts and a single user row with its relationship tag and Actions menu](/img/screenshots/console-users-list.png)
+
 ## The User Detail page
 
 Selecting a user opens one page with several tabs, all scoped to that user:
@@ -28,6 +30,8 @@ Selecting a user opens one page with several tabs, all scoped to that user:
 | **Activity** | A timeline of what happened on this account — see below. |
 
 Every tab shares the same header (name, status, quick actions), so switching tabs never loses context on who you're looking at.
+
+![The User Detail page's Overview tab, showing the shared header, the tab strip, sign-in activity, and profile fields](/img/screenshots/console-user-detail.png)
 
 ## The Activity tab
 

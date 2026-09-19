@@ -9,6 +9,8 @@ const sidebars = {
       collapsed: false,
       items: [
         'getting-started/overview',
+        'getting-started/who-loginlink-is-for',
+        'getting-started/how-it-works',
         {
           type: 'link',
           label: 'Quickstart',
@@ -25,8 +27,23 @@ const sidebars = {
       type: 'category',
       label: 'Console',
       items: [
+        'console/tenant-admin-guide',
         'console/user-management',
         'console/admin-actions-and-audit',
+        'console/apps-and-connectors',
+        'console/roles-and-relationships',
+        'console/onboarding-and-membership',
+        'console/mfa-and-recovery',
+        'console/session-and-token-policy',
+        'console/risk-and-anti-abuse',
+        'console/identifiers-and-custom-fields',
+        'console/delegated-access',
+        'console/risk-monitoring-and-alerts',
+        'console/webhooks-administration',
+        'console/organization-settings',
+        'console/advanced-signin-options',
+        'console/walkthrough-first-app',
+        'console/walkthrough-invite-co-admin',
       ],
     },
     {
@@ -73,6 +90,7 @@ const sidebars = {
       type: 'category',
       label: 'Self-Hosting',
       items: [
+        'self-hosting/platform-admin-guide',
         'self-hosting/first-run-setup',
         'self-hosting/docker-images',
         'self-hosting/docker-compose',
@@ -83,6 +101,10 @@ const sidebars = {
         'self-hosting/signup-security',
         'self-hosting/issuer-and-reverse-proxy',
         'self-hosting/upgrades-and-deployment-health',
+        'self-hosting/platform-identity-policy',
+        'self-hosting/platform-risk-monitoring',
+        'self-hosting/platform-settings',
+        'self-hosting/platform-organizations',
       ],
     },
     {

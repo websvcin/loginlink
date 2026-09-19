@@ -16,6 +16,8 @@ SCIM (System for Cross-domain Identity Management) lets your own identity provid
 - **Governance**: which of your tenant's roles the IdP is allowed to see and assign. A role you don't check here is invisible to the IdP entirely — it can never discover, assign, or touch it via SCIM.
 - **Default sign-in method** for newly provisioned users: either a password-setup email, or SSO-only (no password at all — the user signs in only through a connector you've already configured, such as SAML or OIDC).
 
+![The SCIM Provisioning page's Connection and Governance sections, showing the base URL, bearer token generation, and default sign-in method options](/img/screenshots/console-scim-provisioning.png)
+
 ## Configuring your IdP
 
 Point your IdP's SCIM app at the base URL above, using **OAuth Bearer Token** as the authentication method with the token from Console. Most IdPs (Okta, Azure AD) will immediately probe the discovery endpoints (`ServiceProviderConfig`, `ResourceTypes`, `Schemas`) to confirm the connection before you assign anyone.
