@@ -36,6 +36,7 @@ const sidebars = {
         'console/mfa-and-recovery',
         'console/session-and-token-policy',
         'console/risk-and-anti-abuse',
+        'console/access-rules',
         'console/identifiers-and-custom-fields',
         'console/delegated-access',
         'console/risk-monitoring-and-alerts',

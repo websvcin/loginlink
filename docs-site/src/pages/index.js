@@ -11,7 +11,8 @@ function HomepageHero() {
       <h1 className={styles.heroTitle}>Everything you need to run sign-in on LoginLink</h1>
       <p className={styles.heroSubtitle}>
         Guides, API references, and SDKs for adding authentication, provisioning, and account
-        management to your product.
+        management to your product — plus full guides for running your own instance and
+        administering an organization on it.
       </p>
       <div className={styles.heroActions}>
         <Link className="button button--lg" style={{ background: 'var(--ll-accent)', color: '#fff', border: 'none' }} to="/quickstart">
@@ -21,6 +22,9 @@ function HomepageHero() {
           API Reference
         </Link>
       </div>
+      <p className={styles.heroSubtitle} style={{ marginTop: '1rem', fontSize: '0.95rem' }}>
+        New here? <Link to="/getting-started/who-loginlink-is-for">See who LoginLink is for →</Link>
+      </p>
     </header>
   );
 }

@@ -19,9 +19,10 @@ const FeatureList = [
     title: 'Getting Started',
     color: blue,
     path: 'M13 10V3L4 14h7v7l9-11h-7z',
-    description: 'Core concepts — tenants, users, apps, roles — and a 10-minute quickstart.',
+    description: 'Not sure LoginLink is the right fit yet? Start here. Then: core concepts and a 10-minute quickstart.',
     links: [
-      { label: 'Overview', to: '/getting-started/overview' },
+      { label: 'Who LoginLink is for', to: '/getting-started/who-loginlink-is-for' },
+      { label: 'How it works', to: '/getting-started/how-it-works' },
       { label: 'Quickstart', to: '/quickstart' },
     ],
   },
@@ -56,15 +57,32 @@ const FeatureList = [
     title: 'SDKs & Integrations',
     color: mint,
     path: 'M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4',
-    description: '.NET, JavaScript, and React samples. Mobile SDKs and an embeddable widget are on the roadmap.',
-    links: [{ label: '.NET / JS / React', to: '/sdks-integrations/dotnet-js-react' }],
+    description: '.NET, JavaScript, and React samples, native iOS/Android SDKs, and a zero-build embeddable widget.',
+    links: [
+      { label: '.NET / JS / React', to: '/sdks-integrations/dotnet-js-react' },
+      { label: 'Mobile SDKs', to: '/sdks-integrations/mobile' },
+      { label: 'Embeddable Widget', to: '/sdks-integrations/widget' },
+    ],
   },
   {
-    title: 'Self-Hosting',
+    title: 'Console: Running Your Organization',
+    color: mint,
+    path: 'M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m6-1.13a4 4 0 10-4-4 4 4 0 004 4zm6 0a4 4 0 10-4-4',
+    description: 'Every tenant-admin area: apps & connectors, roles, MFA policy, risk monitoring, webhooks, and more.',
+    links: [
+      { label: 'Tenant Admin Guide', to: '/console/tenant-admin-guide' },
+      { label: 'Apps & Connectors', to: '/console/apps-and-connectors' },
+    ],
+  },
+  {
+    title: 'Self-Hosting & Platform Admin',
     color: amber,
     path: 'M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z',
-    description: 'Run LoginLink yourself with the published Docker images (Docker Hub & GHCR).',
-    links: [{ label: 'Docker quickstart', to: '/self-hosting/docker-images' }],
+    description: 'Run LoginLink yourself with the published Docker images, then run the instance itself: identity policy, risk ceilings, and organizations.',
+    links: [
+      { label: 'Docker quickstart', to: '/self-hosting/docker-images' },
+      { label: 'Platform Admin Guide', to: '/self-hosting/platform-admin-guide' },
+    ],
   },
 ];
 

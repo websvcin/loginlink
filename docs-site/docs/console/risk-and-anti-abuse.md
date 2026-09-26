@@ -4,7 +4,7 @@ title: Risk & Anti-Abuse
 
 # Risk & Anti-Abuse
 
-Three independent, mostly-set-and-forget controls: a weighted login risk score, a limiter against email/username enumeration, and country-based sign-in restriction. Most organizations never touch these — the defaults are deliberately sensible — but they're fully tunable when you need to.
+Three independent, mostly-set-and-forget controls: a weighted login risk score, a limiter against email/username enumeration, and country-based sign-in restriction. Fixed policies such as IP ranges and allowed hours are covered in [Access Rules](./access-rules). Most organizations never touch these — the defaults are deliberately sensible — but they're fully tunable when you need to.
 
 ## Login risk scoring
 
@@ -47,6 +47,8 @@ The platform's own ceiling is enforced defensively in two places — at save tim
 - **Deny** mode — listed countries are blocked, everyone else may sign in.
 
 Requires the geolocation database to be available on your instance; the page tells you if it isn't.
+
+The same page also lists exceptions and other rules (per person, per tag, per app), including travel allowances, IP ranges, allowed hours and more. See [Access Rules](./access-rules).
 
 ## Related reading
 

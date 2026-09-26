@@ -44,6 +44,7 @@ Each endpoint group below names the capability it needs. Capabilities are ticked
 | `ManageMfaResets` | Manage MFA resets | MFA reset requests |
 | `ManageSignInOptions` | Manage sign-in options | Passkeys, device flow, cross-device magic link |
 | `ManageRelationshipTags` | Manage relationship tags | Tags and their policies |
+| `ManageAccessRules` | Manage access rules | Country restriction and per-user, per-tag, per-app and organization access rules |
 | `ManageRoleSync` | Manage role sync sources | Role sync sources |
 | `ManageTenantConfig` | Manage tenant config | Name, branding, "Powered by" |
 | `ManageCustomFields` | Manage custom fields | Custom field definitions |
@@ -126,6 +127,22 @@ POST   /api/v1/users/{id}/reactivate
 ```
 
 Deactivation is a soft suspension — the same as suspending a user in Console — never a hard delete. Reactivate returns `"status": "active"`.
+
+### Lock, unlock and risk
+
+```
+POST /api/v1/users/{id}/lock      — ManageUsers
+POST /api/v1/users/{id}/unlock    — ManageUsers
+GET  /api/v1/users/{id}/risk      — ReadRiskSignals
+```
+
+```json
+POST /api/v1/users/42/lock
+{ "durationMinutes": 60, "reason": "investigating", "endSessions": true }
+→ 200 { "userId": 42, "locked": true, "lockedUntil": "2026-09-28T11:30:00Z", "indefinite": false }
+```
+
+Send `"indefinite": true` instead of `durationMinutes` (1 to 2,628,000) to lock until an unlock. A lock blocks new sign-ins; `endSessions` also ends the person's current sessions. It is separate from suspend and is audited like the Console action. `unlock` clears a manual or automatic lock and the failed-attempt counter. `risk` returns `{ "userId", "score", "tier", "locked" }` from the latest scored sign-in (`score` and `tier` are null before the first one).
 
 ### Sessions — `ReadSessions` / `ManageSessions`
 
@@ -222,6 +239,21 @@ DELETE /api/v1/apps/{id}                 → { "appId": 7, "deleted": true }
 | `allowTenantAdminSignIn` | Whether organization administrators may sign in to this app |
 
 At least one of `allowEndUserSignIn` / `allowTenantAdminSignIn` must stay `true`, otherwise the request is rejected with `400`.
+
+### App access — `RegisterApps`
+
+```
+GET    /api/v1/apps/{id}/access
+PUT    /api/v1/apps/{id}/access                       { "restricted": true }
+POST   /api/v1/apps/{id}/access/users/{userId}        add to the guest list
+DELETE /api/v1/apps/{id}/access/users/{userId}
+POST   /api/v1/apps/{id}/access/tags/{tagId}          let in everyone with a Relationship Tag
+DELETE /api/v1/apps/{id}/access/tags/{tagId}
+POST   /api/v1/apps/{id}/access/exclusions/{userId}   keep one person out of the group access
+DELETE /api/v1/apps/{id}/access/exclusions/{userId}
+```
+
+`GET` returns `{ "appId", "restricted", "grantedUserIds", "grantedTagIds", "excludedUserIds" }`. With `restricted` false everyone in the tenant can sign in and the lists are ignored; with true only the guest list and granted tags can. Removing access (revoke, remove a group, exclude, restrict) ends the affected people's app tokens immediately: refresh tokens are revoked and introspection reports their access tokens inactive.
 
 ### Rotate a client secret
 
@@ -371,6 +403,43 @@ GET|PATCH /api/v1/signin-options
 ```
 
 Passkeys (WebAuthn) usage, the device-code flow, and cross-device magic links. These are still limited by what your platform administrator allows.
+
+## Access rules — `ManageAccessRules`
+
+```
+GET  /api/v1/geo-restriction
+PUT  /api/v1/geo-restriction        { "mode": "allow", "countries": ["IN", "US"] }     (mode: disabled | allow | deny)
+GET  /api/v1/geo-rules?userId=&appId=
+POST /api/v1/geo-rules              → 201 { "id" }
+DELETE /api/v1/geo-rules/{ruleId}   → 204
+```
+
+`geo-restriction` is the organization's country setting. `geo-rules` are the other rules (see [Access Rules](../console/access-rules) for behaviour and precedence). A rule has a `scope` (`user`, `tag`, `app`, `org`), a `type` and the fields for that type:
+
+| type | Fields |
+|---|---|
+| `country` (default) | `effect` (`allow`/`deny`), `countries` (two-letter codes) |
+| `region` | `effect`, `regions` (`"IN:Karnataka"`) |
+| `ip` | `effect`, `cidrs` (addresses or ranges) |
+| `hours` | `days` (0 = Sunday), `startTime`, `endTime` (`"HH:mm"`), `timeZoneId` |
+| `method` | `methods`: `password`, `webauthn`, `EmailOtp`, `SmsOtp`, `MagicLink`, `Ldap`, `Saml`, `Social` |
+| `anonymizer` | none (blocks VPN, proxy and Tor) |
+| `sessions` | `maxSessions` (1 to 50), for user, tag or org scope |
+| `sessionlength` | `maxSessionMinutes` (1 to 43200), for user, tag or org scope |
+| `devices` | `maxDevices` (1 to 20), for user, tag or org scope |
+
+Plus `userId` / `tagId` / `appId` for the scope, and optional `reason` and `expiresAt`. An invalid rule returns `400 invalid_request` with a description.
+
+### Registered devices — `ManageAccessRules`
+
+```
+GET    /api/v1/users/{id}/devices
+POST   /api/v1/users/{id}/devices/{deviceId}/approve
+POST   /api/v1/users/{id}/devices/{deviceId}/deny
+DELETE /api/v1/users/{id}/devices/{deviceId}
+```
+
+For the `devices` rule type. `GET` returns `{ "devices": [{ "deviceId", "label", "status", "firstSeen", "lastUsed", "ip", "place" }] }` with `status` one of `registered`, `pending` or `denied`.
 
 ## Relationship tags — `ManageRelationshipTags`
 

@@ -46,7 +46,15 @@ Removing an app deletes its own service account only if no other app still refer
 **App → Access** controls *who may use this app at all*, independent of what they can do once inside (that's a role concern — see below):
 
 - **Open** (default) — any user in your organization can sign in to this app.
-- **Restricted** — only users you explicitly grant access to can sign in; everyone else is turned away before roles or connectors even come into play. Grant and revoke individual users from the same page.
+- **Restricted** — only users you explicitly grant access to can sign in; everyone else is turned away before roles or connectors even come into play.
+
+The page opens with one plain choice, **Everyone in my organization** or **Only people I choose**, and a live count ("12 of 48 can sign in"). When you choose "Only people I choose":
+
+- **Grant by group** lets in everyone who carries a [Relationship Tag](./roles-and-relationships), for example all Vendors, including people tagged later. There is no separate group to maintain: the tag is the group, and access is checked live at each sign-in to the app.
+- **People** is a searchable, filterable, paged list with per-person and bulk **Grant** / **Revoke**. Someone who gets in through a group shows as "Through group" and can be **Excluded** individually; an individual grant still overrides an exclusion.
+- Removing access (revoking a person, removing a group, excluding someone, restricting the app, or changing someone's tag) ends their access to this app **immediately**: their refresh tokens are revoked, and token introspection reports their access tokens inactive. A token an app validates locally, without calling LoginLink, runs until it expires; keep access-token lifetimes short in **Token Settings** if that matters. Their LoginLink account and their other apps are untouched.
+- The groups and guest list can be set up while the app is still open to everyone (they are marked "not in effect yet"). Set them up first, then switch to **Only people I choose**: the switch takes effect at once, so anyone not on them loses access right then, and the console asks you to confirm.
+- The same page holds this app's own [Access Rules](./access-rules) (country, state, IP, hours, methods).
 
 ## Per-app roles
 

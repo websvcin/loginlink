@@ -43,6 +43,15 @@ Each tag carries two independent policy toggles, applied to every user holding t
 | **Self-service data export** | Whether the user can download their own data from their profile (on by default). |
 | **Self-service account deletion** | Whether the user can erase their own account from their profile (on by default). |
 
+The Relationship Tags page opens with an at-a-glance table: each tag, how many people hold it, whether it may export or delete its own data, and which apps it opens. A tag does **not** grant roles or permissions inside an app.
+
+A tag is also a **group**:
+
+- On an app's **Access** page, **Grant by group** lets in everyone with a tag (see [Apps & Connectors](./apps-and-connectors)).
+- Tags can carry [Access Rules](./access-rules), so a sensitive group gets stricter sign-in rules the moment someone is tagged.
+
+Accounts created directly by an admin get the tenant's "default for invites" tag, the same as an invited person. If some accounts have no tag (created before tags existed), the page shows a banner with a one-click **Give them this tag**; it never runs by itself.
+
 You can add unlimited custom tags beyond the two seeded ones, and choose which tag is the default for self-signup versus for invited users independently — see [Onboarding & Membership](./onboarding-and-membership) for how a specific app can override the self-signup default further. Deleting a tag isn't supported — if a tag needs retiring, reassign its members to a different tag first.
 
 ## Related reading
