@@ -33,9 +33,15 @@ When the app has opted in, a tenant admin signing in to it goes through the same
 
 Their tokens carry a `user_kind` claim set to `tenant_admin` (end users' tokens carry `end_user`). Your application can read it to treat administrators differently, for example to show admin-only screens.
 
+On a repeat visit, the sign-in page's device-remembered account picker offers a one-click shortcut for a tenant admin who's used this exact app before — same as it already does for end users. It only ever appears on an app that has opted in, scoped to that admin's own tenant; every other app's picker still shows end users only.
+
 :::caution Broad access — turn it on deliberately
 A tenant admin's session isn't limited to your app: the same account can manage everything in the Console. If an admin's session is compromised inside an app you've opted in, that is also a compromise of the Console. Only enable this for apps that are genuinely meant for administrators, and consider requiring MFA for those accounts.
 :::
+
+## An app that's admin-only
+
+**End users** doesn't have to stay ticked. Turn it off (leaving **Tenant admins** on) and the app becomes admin-only — an end user who tries to sign in to it sees a plain refusal ("can't sign in to this app — it's only available to administrators") instead of a method list that would never have worked, and the same check runs again at consent, so it can't be bypassed by resuming a stale sign-in link. Useful for an internal tool that should only ever show up for your organization's own staff.
 
 ## What never changes
 

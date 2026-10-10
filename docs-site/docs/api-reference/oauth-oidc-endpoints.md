@@ -27,7 +27,7 @@ Every endpoint below is relative to your tenant's issuer, e.g. `https://auth.you
 
 | `grant_type` | Use case |
 |---|---|
-| `authorization_code` | Standard web/mobile sign-in flow, following `/authorize` |
+| `authorization_code` | Standard web/mobile sign-in flow, following `/authorize`. A confidential app's own backend can also add [Token Attributes](../authentication/token-attributes) here. |
 | `client_credentials` | Machine-to-machine — see [Management API](../automating-your-tenant/management-api) |
 | `refresh_token` | Exchange a refresh token for a new access token without re-prompting the user |
 | `urn:ietf:params:oauth:grant-type:device_code` | Device Authorization Grant (RFC 8628) — see below |

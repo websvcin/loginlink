@@ -32,8 +32,9 @@ Each endpoint group below names the capability it needs. Capabilities are ticked
 | `ManageUsers` | Manage users | Users |
 | `ManageRoles` | Manage roles | Roles, app roles, granting roles |
 | `RegisterApps` | Manage apps | Apps |
-| `ManageConnectors` | Manage app connectors | Per-app sign-in connectors |
+| `ManageConnectors` | Manage app connectors | Per-app sign-in connectors, and connector policy (tenant approval) |
 | `ManageTenantAdmins` | Manage tenant admins | Tenant administrators |
+| `ManageTokenAttributes` | Manage token attributes | Extra claims a confidential app's backend may set at `/token` |
 | `ManageInvitations` | Manage invitations | Invitations |
 | `ManageServiceAccounts` | Manage service accounts | Service accounts |
 | `ReadAuditLog` | Read audit log | Audit events |
@@ -276,6 +277,34 @@ PATCH /api/v1/apps/{id}/connectors                       { "name": "EmailOtp", "
 ```
 
 A connector can only be switched on for an app once it has been approved for that app under **Sign-in Methods** in Console; otherwise the API returns `400`.
+
+### Connector policy (tenant approval) — `ManageConnectors`
+
+The other half of the three-layer model above: approving a connector for the tenant, and optionally scoping it to specific apps, before any app can turn it on.
+
+```
+GET   /api/v1/connector-policy
+→ { "connectors": [{ "name": "Password", "approved": true, "scopeMode": "all", "appIds": [] }, …] }
+
+PATCH /api/v1/connector-policy/{name}
+{ "approved": true, "scopeMode": "specific", "appIds": [7, 12] }
+```
+
+`name` matches one of the names in the `GET` response (e.g. `"Password"`). `scopeMode` is `"all"` (every approved app may use it) or `"specific"` (only `appIds`). Send only the fields you're changing — `approved` alone withdraws or grants approval without touching scope.
+
+### Token attributes — `ManageTokenAttributes`
+
+Which extra claim names a **confidential** app's own backend may set on its access token at `/token`. Full guide: [Token Attributes](../authentication/token-attributes).
+
+```
+GET /api/v1/apps/{id}/token-attributes
+→ { "appId": 7, "appName": "CrudAdmin", "confidential": true, "claimNames": ["tenant_ref", "dbs"], "usable": true, "reason": null }
+
+PUT /api/v1/apps/{id}/token-attributes
+{ "claimNames": ["tenant_ref", "dbs"] }
+```
+
+`PUT` replaces the whole allow-list. Refused with `400 unauthorized_client` for a public app — token attributes only ever work for a confidential app's own authenticated backend, never a browser or mobile client. A name that's reserved (any claim LoginLink itself sets) or already used by a [custom field](../console/identifiers-and-custom-fields) for this tenant is rejected with `400 invalid_request`, naming it.
 
 ---
 

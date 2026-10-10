@@ -58,6 +58,7 @@ const sidebars = {
         'authentication/ldap-active-directory',
         'authentication/saml',
         'authentication/cross-surface-sign-in',
+        'authentication/token-attributes',
       ],
     },
     {
