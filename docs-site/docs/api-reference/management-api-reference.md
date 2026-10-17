@@ -32,6 +32,7 @@ Each endpoint group below names the capability it needs. Capabilities are ticked
 | `ManageUsers` | Manage users | Users |
 | `ManageRoles` | Manage roles | Roles, app roles, granting roles |
 | `RegisterApps` | Manage apps | Apps |
+| `ManageApis` | Manage APIs | Register resource servers, grant apps access to request tokens for them |
 | `ManageConnectors` | Manage app connectors | Per-app sign-in connectors, and connector policy (tenant approval) |
 | `ManageTenantAdmins` | Manage tenant admins | Tenant administrators |
 | `ManageTokenAttributes` | Manage token attributes | Extra claims a confidential app's backend may set at `/token` |
@@ -305,6 +306,24 @@ PUT /api/v1/apps/{id}/token-attributes
 ```
 
 `PUT` replaces the whole allow-list. Refused with `400 unauthorized_client` for a public app — token attributes only ever work for a confidential app's own authenticated backend, never a browser or mobile client. A name that's reserved (any claim LoginLink itself sets) or already used by a [custom field](../console/identifiers-and-custom-fields) for this tenant is rejected with `400 invalid_request`, naming it.
+
+---
+
+## APIs — `ManageApis`
+
+Register your own resource servers (an API with its own identifier, separate from any app) and grant apps access to request tokens for them. Full guide: [APIs (Resource Servers)](../authentication/apis-resource-servers).
+
+```
+GET    /api/v1/apis                     → { "apis": [{ "id": 1, "name": "CrudApi", "identifier": "https://crud.webapis.in", "description": "...", "grantedAppCount": 2 }] }
+POST   /api/v1/apis                     { "name": "CrudApi", "identifier": "https://crud.webapis.in", "description": "..." }  → 201
+PATCH  /api/v1/apis/{id}                { "name": "...", "identifier": "...", "description": "..." }
+DELETE /api/v1/apis/{id}                → 204 (also removes every app's grant for it)
+
+GET /api/v1/apps/{id}/apis              → { "appId": 7, "apiIds": [1] }
+PUT /api/v1/apps/{id}/apis              { "apiIds": [1, 2] }   — replaces the whole grant set
+```
+
+`identifier` must be an absolute URI with no `#` fragment (RFC 8707), and unique within this organization — the same identifier may be registered in a different organization; that's by design, not a collision. An unknown id in `PUT /apps/{id}/apis` is rejected, naming it, rather than silently ignored.
 
 ---
 

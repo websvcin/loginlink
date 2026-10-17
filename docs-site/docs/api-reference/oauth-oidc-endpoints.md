@@ -17,7 +17,7 @@ Every endpoint below is relative to your tenant's issuer, e.g. `https://auth.you
 
 | Method | Path | Description |
 |---|---|---|
-| `GET` | `/authorize` | Starts the sign-in flow. Params: `client_id`, `redirect_uri`, `response_type=code`, `scope`, `state`, optional `code_challenge`/`code_challenge_method=S256` for PKCE |
+| `GET` | `/authorize` | Starts the sign-in flow. Params: `client_id`, `redirect_uri`, `response_type=code`, `scope`, `state`, optional `code_challenge`/`code_challenge_method=S256` for PKCE, optional `resource` for an [API-audience token](../authentication/apis-resource-servers) |
 | `POST` | `/token` | Exchanges a grant for tokens — see grant types below |
 | `POST` | `/revoke` | Revokes a refresh or access token |
 | `POST` | `/introspect` | Checks whether a token is currently active, per RFC 7662 |
@@ -31,6 +31,8 @@ Every endpoint below is relative to your tenant's issuer, e.g. `https://auth.you
 | `client_credentials` | Machine-to-machine — see [Management API](../automating-your-tenant/management-api) |
 | `refresh_token` | Exchange a refresh token for a new access token without re-prompting the user |
 | `urn:ietf:params:oauth:grant-type:device_code` | Device Authorization Grant (RFC 8628) — see below |
+
+`authorization_code`, `refresh_token` and `client_credentials` (not the device grant) accept an optional `resource` parameter (RFC 8707) to request a token addressed to a registered [API](../authentication/apis-resource-servers) instead of the calling app itself.
 
 ## Device Authorization Grant
 

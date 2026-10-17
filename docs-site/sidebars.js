@@ -59,6 +59,7 @@ const sidebars = {
         'authentication/saml',
         'authentication/cross-surface-sign-in',
         'authentication/token-attributes',
+        'authentication/apis-resource-servers',
       ],
     },
     {
