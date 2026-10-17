@@ -35,8 +35,8 @@ This is a property of *your deployment* — which domain points at this server �
 
 One value is used consistently for:
 
-- the `iss` claim in every signed access and ID token,
-- the OIDC discovery document at `/.well-known/openid-configuration`,
+- the OIDC discovery document at the bare `/.well-known/openid-configuration` (every organization's own discovery document, scoped to it alone, is covered separately below),
+- the `iss` claim in every signed access and ID token for an organization that hasn't moved to its own subdomain or custom domain,
 - the OAuth endpoint URLs shown on each app's **Quickstart** and **Edit** pages in the Console,
 - each organization's SCIM base URL, and
 - validation of Management API tokens.
@@ -46,6 +46,26 @@ Several other places build absolute links from the **`LoginLink:Issuer` configur
 ### Checking it
 
 Open `https://your-domain/.well-known/openid-configuration` — the `issuer` field must be exactly the URL applications use. Then decode any token from a test sign-in and confirm its `iss` matches. A mismatch shows up as "invalid issuer" errors in client libraries.
+
+## Per-organization issuer
+
+The value above is the **base** issuer — the platform's own, and the one every organization that hasn't moved to a subdomain or custom domain is reached at. Each organization actually has its **own** issuer, derived from this base value:
+
+| Organization's identity mode | Its issuer |
+|---|---|
+| **None** (the default) | `{base issuer}/{slug}` — e.g. `https://auth.acme.com/acmecorp` |
+| **Subdomain** | `https://{slug}.{platform base domain}` |
+| **Custom domain** (verified) | `https://{its own domain}` |
+
+Every token an organization issues — access, ID, and [API-audience](../authentication/apis-resource-servers) — carries that organization's own `iss`, and its discovery document (`{its issuer}/.well-known/openid-configuration`) and key list (`{its issuer}/.well-known/jwks.json`) are scoped to it alone: another organization's keys never appear there. A tenant admin sees the exact current value, with copy-to-clipboard, at **Console → Domain Settings → Authority**.
+
+If an organization is on a subdomain or custom domain, its always-available path-based address (`{base issuer}/{slug}/...`) still works for human sign-in, but its `/.well-known/*` endpoints there **redirect** to the canonical (subdomain/custom-domain) discovery document instead of serving a second copy — OIDC requires `issuer` to equal the address the document was fetched from, so there can only be one canonical discovery address per organization.
+
+### Dual-acceptance, never an automatic cutover
+
+Introducing per-organization issuers is additive, not a breaking migration: by default, every organization accepts tokens carrying **either** the base platform issuer or its own — indefinitely. Nothing stops working the day this ships, and nothing is scheduled to stop working later on its own.
+
+An organization that wants to require its *own* issuer only (and reject the base one) turns on **Strict issuer mode** for itself at **Console → Token Settings**. A platform owner can also change the *default* every organization starts from — off (dual-acceptance) unless changed — at **Admin → Platform Settings → Host & Branding**; an organization's own choice at Token Settings always overrides that default. Turning Strict issuer mode on is a breaking change for any client still validating against the base issuer, so do it only once every client has moved to the address shown at Domain Settings → Authority.
 
 ## Running behind a reverse proxy
 

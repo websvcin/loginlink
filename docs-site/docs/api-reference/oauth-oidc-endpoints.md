@@ -13,6 +13,8 @@ Every endpoint below is relative to your tenant's issuer, e.g. `https://auth.you
 | `GET` | `/.well-known/openid-configuration` | Standard OIDC discovery document |
 | `GET` | `/.well-known/jwks.json` | Public signing keys, for verifying access/ID tokens yourself |
 
+Every organization also has its own scoped discovery document and key list at `{its issuer}/.well-known/openid-configuration` and `{its issuer}/.well-known/jwks.json` — `issuer` named in the document always equals the address it was fetched from, and the key list holds only that organization's own keys. See [Per-organization issuer](../self-hosting/issuer-and-reverse-proxy#per-organization-issuer) for how an organization's issuer is derived, and for **Strict issuer mode** — by default an organization's tokens validate against either its own issuer or the platform's shared one, indefinitely.
+
 ## Authorization Code flow
 
 | Method | Path | Description |

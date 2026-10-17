@@ -26,7 +26,21 @@ The general configuration surfaces for your organization itself — branding, do
   2. Add the DNS TXT record shown, then **verify ownership**.
   3. Once verified, **upload your own TLS certificate** (certificate + private key, PEM format) — manual upload only; there's no automatic certificate issuance yet.
 
+Saving a new custom domain also changes your organization's **issuer** once it's verified — the page warns about this at the point of saving, naming the exact old → new values, so it's never a surprise. See [Authority](#authority) below for what that means and where to see the current value at any time.
+
 ![The Domain Settings page for a tenant on the default "None" identity mode, showing the sign-in and landing URLs with copy buttons](/img/screenshots/console-domain-settings.png)
+
+### Authority
+
+Also on **Domain Settings** — your organization's own OIDC issuer, and where OAuth clients discover its endpoints and signing keys:
+
+| Field | What it is |
+|---|---|
+| **Issuer** | The `iss` value every token your organization issues carries. Copy button included. |
+| **Discovery document** | `{issuer}/.well-known/openid-configuration` — what OIDC-compliant client libraries fetch to auto-configure themselves. |
+| **JWKS** | `{issuer}/.well-known/jwks.json` — your organization's own signing key(s) only. |
+
+This value is derived automatically from your identity mode above (and the platform's own base issuer) — see [Per-organization issuer](../self-hosting/issuer-and-reverse-proxy#per-organization-issuer) for exactly how, and for **Strict issuer mode**, which controls whether clients using the platform's older, shared issuer keep working alongside this one (covered in [Session & Token Policy](./session-and-token-policy#token-issuer)).
 
 ## Notifications
 

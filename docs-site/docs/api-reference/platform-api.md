@@ -64,10 +64,13 @@ POST /api/v1/tenants
   "tenantId": 12,
   "slug": "acmecorp",
   "adminUserId": 34,
-  "app": { "appId": 1, "clientId": "b3f1...", "clientSecret": "sK9x..." }
+  "app": { "appId": 1, "clientId": "b3f1...", "clientSecret": "sK9x..." },
+  "issuer": "https://auth.yourcompany.com/acmecorp",
+  "discoveryUrl": "https://auth.yourcompany.com/acmecorp/.well-known/openid-configuration"
 }
 ```
 
+- `issuer` is this new organization's own OIDC issuer, and `discoveryUrl` is its discovery document — see [Per-organization issuer](../self-hosting/issuer-and-reverse-proxy#per-organization-issuer). Returned up front so a platform caller provisioning on someone's behalf (for example, onboarding a new customer into its own product) never has to guess the address or make a second call to find it.
 - The **slug** is generated from the name (lowercase letters and digits only). If it collides with an existing tenant or a reserved name, a short random suffix is appended — **read `slug` from the response** rather than assuming it.
 - The tenant is created on **platform-managed SQLite** storage. It can be moved to MySQL/PostgreSQL later by the organization from **Console → Database & Migration**.
 - `app.clientSecret` is shown exactly once. `app` is `null` when you didn't request one.

@@ -39,11 +39,13 @@ The same refresh token works with or without `resource` — an app signs in once
 | Claim | Value |
 |---|---|
 | `aud` | The API's identifier |
+| `iss` | The organization's own issuer — see [Per-organization issuer](../self-hosting/issuer-and-reverse-proxy#per-organization-issuer) |
 | `client_id`, `azp` | The app that requested the token (not the API) |
 | `tenant_id` | The organization's id |
 | `org` | The organization's slug |
 | `sub`, `scope`, `user_kind` | Same as the app's own token |
 | `roles` | **Not narrowed** — identical to what the app's own token would carry (tenant-wide ∪ the app's own app-scoped roles) |
+| `email` (and `phone_number`/`preferred_username` if enabled) | The signed-in user's human-readable identifier(s), same [Add to tokens](../console/identifiers-and-custom-fields#add-to-tokens) settings as the app's own access token — email is on by default so `sub` is never the only thing identifying the subject |
 
 No ID token is issued alongside an API-audience access token — an API token has no sign-in event of its own to describe. A request made *without* `resource` is completely unaffected: `aud` stays the app's client ID, exactly as before.
 

@@ -25,6 +25,20 @@ Per type, you control:
 
 Changes apply to both the profile-edit page and signup flows immediately.
 
+### Add to tokens
+
+A `sub` claim alone is an opaque internal ID — not something a resource server can show a person or log usefully. Per built-in type (Email, Mobile, Username), a toggle on this same page controls whether that identifier's value is also added as a claim to access tokens, [API-audience tokens](../authentication/apis-resource-servers), the ID token, and `/userinfo`:
+
+| Type | Claim name | Default |
+|---|---|---|
+| Email | `email` | **On** |
+| Mobile | `phone_number` | Off |
+| Username | `preferred_username` | Off |
+
+A tenant-wide toggle, **Require verified identifiers for token inclusion**, controls whether an *unverified* value is still added (flagged with a companion claim, e.g. `email_verified: false`) or left off entirely — on (verified-only) by default. Since Username has no verification step of its own, it only ever becomes eligible once this is turned off.
+
+One deliberate exception: the ID token's and `/userinfo`'s pre-existing `email`/`email_verified` claims — present since before this setting existed — are **not** gated by "require verified." Turning Email's "Add to tokens" off removes it from access/API tokens; it keeps appearing on the ID token and `/userinfo` exactly as it always has, so an existing, unverified user's sign-in behavior never silently changes.
+
 ## Custom Fields
 
 **Console → Custom Fields** defines extra attributes beyond identifiers — descriptive data like a department, an internal employee ID, or a support contact address. Two tabs, one per entity:

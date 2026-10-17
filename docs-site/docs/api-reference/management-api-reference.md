@@ -50,7 +50,8 @@ Each endpoint group below names the capability it needs. Capabilities are ticked
 | `ManageRoleSync` | Manage role sync sources | Role sync sources |
 | `ManageTenantConfig` | Manage tenant config | Name, branding, "Powered by" |
 | `ManageCustomFields` | Manage custom fields | Custom field definitions |
-| `ManageDomains` | Manage domains | Custom domain |
+| `ManageDomains` | Manage domains | Custom domain, and this organization's Authority (issuer/discovery/JWKS) |
+| `ManageIdentifierTypes` | Manage sign-in identifiers | Sign-in identifier types, and which are added to tokens |
 | `ManageDataExport` | Manage data export | Tenant data export |
 | `ManageMigration` | Read migration status | Database migration status |
 | `ManageWebhooks` | Manage webhooks | Webhook endpoints |
@@ -393,13 +394,15 @@ GET|PATCH /api/v1/session-policy
 { "defaultDurationHours": 8, "rememberMeAllowed": true, "rememberMeMaxDurationDays": 30 }
 
 GET|PATCH /api/v1/token-policy
-{ "accessTokenLifetimeSeconds": 900, "refreshTokenLifetimeDays": 30, "alwaysRequireConsent": false }
+{ "accessTokenLifetimeSeconds": 900, "refreshTokenLifetimeDays": 30, "alwaysRequireConsent": false, "strictIssuerMode": false }
 
 GET|PATCH /api/v1/act-as-settings
 { "enabled": true, "requireApproval": true }
 ```
 
 `token-policy` also returns `platformFloorAccessTokenSeconds` and `platformFloorRefreshTokenDays` — the maximums your platform administrator allows. `accessTokenLifetimeSeconds` must be between 300 and that maximum, and `refreshTokenLifetimeDays` between 1 and its maximum; out-of-range values return `400`.
+
+`strictIssuerMode` (default `false` = dual-acceptance, see [Per-organization issuer](../self-hosting/issuer-and-reverse-proxy#per-organization-issuer)) is returned alongside two read-only fields: `strictIssuerModeHasOverride` (whether this organization has explicitly set it, vs. inheriting the platform default) and `strictIssuerModePlatformDefault`. `issuer` is this organization's own OIDC issuer, included here too since it's the value Strict issuer mode decides whether to accept exclusively.
 
 ## Risk signals — `ReadRiskSignals` / `ManageRiskSignals`
 
@@ -541,12 +544,13 @@ DELETE /api/v1/custom-fields/{fieldName}
 ## Custom domain — `ManageDomains`
 
 ```
-GET  /api/v1/domains          → { "identityMode", "slug", "customDomain", "verifyToken", "verifiedAt", "hasTlsCertificate" }
+GET  /api/v1/domains          → { "identityMode", "slug", "customDomain", "verifyToken", "verifiedAt", "hasTlsCertificate",
+                                   "issuer", "discoveryUrl", "jwksUrl" }
 POST /api/v1/domains          { "domain": "login.acme.com" }  → 201
 POST /api/v1/domains/verify   → { "verified": true }
 ```
 
-Set the domain, publish the DNS record using `verifyToken`, then call `verify`.
+Set the domain, publish the DNS record using `verifyToken`, then call `verify`. `issuer`, `discoveryUrl` and `jwksUrl` are this organization's own OIDC issuer and endpoints (read-only here — see [Per-organization issuer](../self-hosting/issuer-and-reverse-proxy#per-organization-issuer)); they update automatically once a custom domain or subdomain is verified.
 
 ## Data export — `ManageDataExport`
 
@@ -577,6 +581,20 @@ GET    /api/v1/webhooks/{id}/deliveries    (latest 100)
 ```
 
 Create returns `201` with `{ "webhookId", "url", "secret" }` — the **signing secret is shown once**. `events` is a comma-separated list or `*` for all; `appId` optionally limits the endpoint to one app. Deliveries return `deliveryId`, `eventType`, `status`, `httpStatus`, `attemptCount`, `errorMessage`, `createdAt`, `deliveredAt`. For event formats and verifying signatures, see [Webhooks](../webhooks/overview).
+
+## Sign-in identifiers — `ManageIdentifierTypes`
+
+```
+GET   /api/v1/identifier-types                → { "identifierTypes": [{ "type": "email", "displayLabel": "Email Address",
+                                                    "isEnabled": true, "isRequired": true, "verificationRequired": true,
+                                                    "isBuiltIn": true, "usableForLogin": true, "addToTokens": true, … }] }
+PATCH /api/v1/identifier-types/{type}          { "isEnabled": true, "addToTokens": false }
+
+GET|PATCH /api/v1/identifier-types/settings
+{ "requireVerifiedForTokens": true }
+```
+
+Full guide: [Add to tokens](../console/identifiers-and-custom-fields#add-to-tokens). `PATCH /identifier-types/{type}` is deliberately narrow — only `isEnabled` and `addToTokens`, not the full field set the Console edit dialog exposes. `addToTokens` is only meaningful for the three built-in types (`email` → claim `email`, `mobile` → `phone_number`, `username` → `preferred_username`); setting it on a custom type is accepted but has no effect, since there's no claim name to map it to. `requireVerifiedForTokens` (default `true`) is tenant-wide, covering every type at once — off also allows an *unverified* value onto a token (flagged with a companion claim, e.g. `email_verified: false`).
 
 ## Notification settings — `ManageNotificationSettings`
 

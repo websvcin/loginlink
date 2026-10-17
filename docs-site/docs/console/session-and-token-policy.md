@@ -35,6 +35,15 @@ Saving new values only affects tokens issued from that point on — existing tok
 
 ![The Token Settings page, showing access and refresh token lifetime fields against the platform maximum, with app and active-session counts](/img/screenshots/console-token-settings.png)
 
+## Token issuer
+
+Also on **Console → Token Settings** — whether your organization's tokens are validated against **only** your own issuer (see [Authority](./organization-settings#authority)), or also against the platform's older, shared issuer:
+
+- **Off** (the default) — dual-acceptance: both your own issuer and the platform's are accepted, indefinitely. Nothing breaks the day you move to a subdomain or custom domain, and nothing is scheduled to stop working later on its own.
+- **On** (**Strict issuer mode**) — only your own issuer is accepted. A breaking change for any client still validating against the platform's issuer — turn this on only once every client has moved to the address shown at Domain Settings → Authority.
+
+This page shows **Using platform default** or **Override active**, mirroring the lifetime fields above: a platform owner sets the instance-wide default (off, unless they change it at **Admin → Platform Settings → Host & Branding**), and your own choice here always overrides it.
+
 ## Device Authorization Grant (device flow)
 
 For sign-in on input-constrained devices (TVs, CLIs) via the OAuth device code flow:
